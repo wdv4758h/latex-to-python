@@ -6,7 +6,8 @@ from functools import reduce
 class latex_to_python():
 
     #(syntax, repl, addtional regex pattern)
-    syntax = [('frac', '\g<1>/\g<3>', '{(.+?({.*})*)}'),]
+    syntax = [(r'\\frac', '\g<1>/\g<3>', '{(.+?({.*})*)}'),
+              ('\^', '**\g<1>', ''),]
     patterns = []
 
     def __init__(self):
@@ -20,7 +21,7 @@ class latex_to_python():
         #+?    : non-greedy of +
         #{.*}* : avoid match in the main {}
 
-        return (r'\\%s{(.+?({.*})*)}%s' % (s[0], s[2]), s[1])
+        return (r'%s{(.+?({.*})*)}%s' % (s[0], s[2]), s[1])
 
     def replace(self, string, s_tuple):
         """
